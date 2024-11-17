@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     #'example_app',
     'example_app.apps.ExampleAppConfig',
+    'drf_yasg',
 ]
 
 AUTH_USER_MODEL = "example_app.User"

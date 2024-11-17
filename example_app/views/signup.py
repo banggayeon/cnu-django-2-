@@ -9,9 +9,26 @@ from example_app.serializers.user import UserSerializer
 
 from example_app.models.roles import Role, UserRole
 
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
+
 class StudentSignupView(APIView):
     permission_classes = [AllowAny]
 
+    @swagger_auto_schema(
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'student_id': openapi.Schema(type=openapi.TYPE_STRING),
+            },
+            required=['student_id'],
+        ),
+        responses={
+            201: "Post successful", 
+            400: "Bad request",
+            404: "Student with provied ID does not exist"
+        }
+    ) #201이 상태 관련임
     def post(self, request):
         student_id = request.data.get("student_id")
         try:
@@ -20,11 +37,11 @@ class StudentSignupView(APIView):
 
                 if student.user:
                     return Response({"error": "This student is already linked to a user"},
-                                    status = status.Http_404_BAD_REQUEST)
+                                    status = status.HTTP_404_BAD_REQUEST)
 
                 serializer = UserSerializer(data=request.data)
 
-                if serializer.is_vaild():
+                if serializer.is_valid():
                     user = serializer.save()
                     student.user=user
                     student.save()
@@ -38,6 +55,21 @@ class StudentSignupView(APIView):
 
 class ProfessorSignupView(APIView):
     permission_classes = [AllowAny]
+
+    @swagger_auto_schema(
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'employee_id': openapi.Schema(type=openapi.TYPE_STRING),
+            },
+            required=['employee_id'],
+        ),
+        responses={
+            201: "Post successful", 
+            400: "Bad request",
+            404: "Professor with provied ID does not exist",
+        }
+    )
 
     def post(self, request):
         employee_id = request.data.get("employee_id")

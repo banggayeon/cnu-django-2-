@@ -39,6 +39,6 @@ class Course(models.Model):
     professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
     class Meta:
         db_table = 'course'
-        verbose_name = '강의-retest'
+        verbose_name = '강의'
 
 __all__ = ['Student', 'Professor', 'Department', 'Course']

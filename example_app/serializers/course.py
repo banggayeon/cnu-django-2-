@@ -1,8 +1,5 @@
-from rest_framework import serializers, status
-from rest_framework.views import APIView
-from rest_framework.response import Response
+from rest_framework import serializers
 from example_app.models.product import Course, Department, Professor
-from django.http import Http404
 from example_app.serializers.department import DepartmentSerializer
 from example_app.serializers.professor import ProfessorSerializer
 

@@ -1,11 +1,11 @@
-from rest_framework import serializers, status
-from rest_framework.views import APIView
-from rest_framework.response import Response
+from rest_framework import serializers
 from example_app.models.product import Professor, Department
-from django.http import Http404
 from example_app.serializers.department import DepartmentSerializer
 
 class ProfessorSerializer(serializers.ModelSerializer):
+    department = DepartmentSerializer(read_only=True)
+    department_id = serializers.PrimaryKeyRelatedField(queryset=Department.objects.all(),write_only=True)    
+    
     class Meta:
         model = Professor
         fields = '__all__'
